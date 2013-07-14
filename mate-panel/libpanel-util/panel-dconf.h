@@ -39,6 +39,8 @@ gboolean panel_dconf_recursive_reset (const gchar  *dir,
 gchar **panel_dconf_list_subdirs (const gchar *dir,
                                   gboolean     remove_trailing_slash);
 
+void panel_dconf_sync ();
+
 G_END_DECLS
 
 #endif /* __PANEL_DCONF_H__ */

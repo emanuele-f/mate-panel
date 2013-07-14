@@ -111,3 +111,12 @@ panel_dconf_list_subdirs (const gchar *dir,
 
         return (gchar **) g_array_free (array, FALSE);
 }
+
+void panel_dconf_sync ()
+{
+#ifdef HAVE_DCONF_0_13
+        DConfClient  *client = panel_dconf_client_get ();
+        dconf_client_sync (client);
+        g_object_unref (client);
+#endif
+}

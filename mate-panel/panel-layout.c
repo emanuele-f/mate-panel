@@ -122,6 +122,7 @@ panel_layout_append_group_helper (GKeyFile                  *keyfile,
     char       *unique_id = NULL;
     char       *path = NULL;
     GSettings  *settings = NULL;
+    GSettings  *panel_settings = NULL;
     char      **keyfile_keys = NULL;
     char       *value_str;
     int         value_int;
@@ -184,6 +185,8 @@ panel_layout_append_group_helper (GKeyFile                  *keyfile,
     g_free (path);
 
     keyfile_keys = g_key_file_get_keys (keyfile, group, NULL, NULL);
+    panel_settings = g_settings_new (PANEL_SCHEMA);
+    g_settings_delay (panel_settings);
 
     if (keyfile_keys) {
 
@@ -247,12 +250,9 @@ panel_layout_append_group_helper (GKeyFile                  *keyfile,
                                 PANEL_TOPLEVEL_SCREEN_KEY,
                                 set_screen_to);
 
-        GSettings *panel_settings;
-        panel_settings = g_settings_new (PANEL_SCHEMA);
         panel_gsettings_append_strv (panel_settings,
                                      id_list_key,
                                      unique_id);
-        g_object_unref (panel_settings);
 
         retval = TRUE;
     }
@@ -262,6 +262,11 @@ panel_layout_append_group_helper (GKeyFile                  *keyfile,
 
     if (settings)
         g_object_unref (settings);
+
+    if (panel_settings) {
+        g_settings_apply (panel_settings);
+        g_object_unref (panel_settings);
+    }
 
     if (unique_id)
         g_free (unique_id);

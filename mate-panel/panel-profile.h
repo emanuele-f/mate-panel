@@ -154,6 +154,8 @@ gboolean    panel_profile_can_be_moved_freely         (PanelToplevel *toplevel);
 
 GSettings*  panel_profile_get_attached_object_settings (PanelToplevel *toplevel);
 
+void        panel_profile_ensure_toplevel_per_screen  ();
+
 G_END_DECLS
 
 #endif /* __PANEL_PROFILE_H__ */

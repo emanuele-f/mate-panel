@@ -28,19 +28,24 @@
 
 #include <stdlib.h>
 #include <glib.h>
+#include <gio/gio.h>
 #include "panel-reset.h"
 #include "panel-schemas.h"
+#include "panel-profile.h"
 #include <libpanel-util/panel-dconf.h>
 
 void
 panel_reset()
 {
+	/* reset configuration */
 	panel_dconf_recursive_reset (PANEL_GENERAL_PATH, NULL);
 	panel_dconf_recursive_reset (PANEL_TOPLEVEL_PATH, NULL);
 	panel_dconf_recursive_reset (PANEL_OBJECT_PATH, NULL);
+	panel_dconf_sync ();
 
-	/* TODO: send a dbus message to mate-panel, if active, to reload the panel
-	 * configuration */
+	/* create default panels */
+	panel_profile_ensure_toplevel_per_screen ();
+	g_settings_sync ();
 }
 
 #endif /* !__PANEL_RESET_C__ */

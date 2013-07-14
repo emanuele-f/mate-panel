@@ -1601,7 +1601,7 @@ panel_profile_load_list (GSettings              *settings,
 	g_free (key);
 }
 
-static void
+void
 panel_profile_ensure_toplevel_per_screen ()
 {
 	GSList     *toplevels;
